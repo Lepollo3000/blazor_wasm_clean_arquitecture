@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BLAZOR_WASM_CLEAN_ARQUITECTURE.Server/BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.csproj" />
+  <Project Path="BLAZOR_WASM_CLEAN_ARQUITECTURE.Client/BLAZOR_WASM_CLEAN_ARQUITECTURE.Client.csproj" />
+</Solution>
