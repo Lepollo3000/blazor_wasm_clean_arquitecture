@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLAZOR_WASM_CLEAN_ARQUITECTURE\BLAZOR_WASM_CLEAN_ARQUITECTURE.Client.csproj" />
+	  <ProjectReference Include="..\BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data\BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.csproj" />
   </ItemGroup>
 
 </Project>
