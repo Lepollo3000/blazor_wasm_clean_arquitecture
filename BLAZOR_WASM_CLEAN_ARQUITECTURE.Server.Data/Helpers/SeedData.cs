@@ -13,10 +13,10 @@ public class SeedData
     [
         new SeedUser()
         {
-            Email = "leela@contoso.com", 
-            NormalizedEmail = "LEELA@CONTOSO.COM", 
-            NormalizedUserName = "LEELA@CONTOSO.COM", 
-            RoleList = [ "Administrator"/*, "Manager"*/ ], 
+            Email = "leela@contoso.com",
+            NormalizedEmail = "LEELA@CONTOSO.COM",
+            NormalizedUserName = "LEELA@CONTOSO.COM",
+            RoleList = ["Administrator", "Manager"],
             UserName = "leela@contoso.com"
         },
         new SeedUser()
@@ -24,7 +24,7 @@ public class SeedData
             Email = "harry@contoso.com",
             NormalizedEmail = "HARRY@CONTOSO.COM",
             NormalizedUserName = "HARRY@CONTOSO.COM",
-            RoleList = [],
+            RoleList = ["User"],
             UserName = "harry@contoso.com"
         },
     ];
@@ -33,17 +33,14 @@ public class SeedData
     {
         using var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>());
 
-        if (context.Users.Any())
-        {
-            return;
-        }
+        await context.Database.MigrateAsync();
 
         var userStore = new ApplicationUserStore(context);
         var password = new PasswordHasher<ApplicationUser>();
 
         using var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-        string[] roles = [ "Administrator"/*, "Manager", "User"*/ ];
+        string[] roles = ["Administrator", "Manager", "User"];
 
         foreach (var role in roles)
         {
@@ -55,19 +52,30 @@ public class SeedData
 
         using var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-        foreach (var seedUser in seedUsers)
+        foreach (SeedUser seedUser in seedUsers)
         {
-            var hashed = password.HashPassword(seedUser, "Passw0rd!");
-            seedUser.PasswordHash = hashed;
-            await userStore.CreateAsync(seedUser);
-
             if (seedUser.Email is not null)
             {
-                var appUser = await userManager.FindByEmailAsync(seedUser.Email);
+                seedUser.SecurityStamp = Guid.NewGuid().ToString("N");
 
-                if (appUser is not null && seedUser.RoleList is not null)
+                var user = await userManager.FindByEmailAsync(seedUser.Email);
+
+                if (user is null)
                 {
-                    await userManager.AddToRolesAsync(appUser, seedUser.RoleList);
+                    await userManager.CreateAsync(user: seedUser, password: "Pa55w.rd");
+
+                    user = await userManager.FindByEmailAsync(seedUser.Email);
+                }
+
+                if (user is not null && seedUser.RoleList is not null)
+                {
+                    await userManager.UpdateSecurityStampAsync(user);
+
+                    string token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    await userManager.ConfirmEmailAsync(user: user, token: token);
+
+                    await userManager.AddToRolesAsync(user, seedUser.RoleList);
                 }
             }
         }

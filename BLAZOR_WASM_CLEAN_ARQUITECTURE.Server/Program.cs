@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +16,6 @@ builder.Services.AddOpenApiDocument();
 
 // Add Endpoints API Explorer
 builder.Services.AddEndpointsApiExplorer();
-
-// Establish cookie authentication
-builder.Services
-    .AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddIdentityCookies();
 
 // Configure app cookie
 //
@@ -42,23 +36,23 @@ builder.Services.AddAuthorizationBuilder();
 builder.Services
     .AddDbContext<ApplicationDbContext>(options =>
     {
-        options.UseInMemoryDatabase("AppDb");
+        options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+        //options.UseInMemoryDatabase("AppDb");
         //For debugging only: options.EnableDetailedErrors(true);
         //For debugging only: options.EnableSensitiveDataLogging(true);
     });
 
 // Add identity and opt-in to endpoints
 builder.Services
-    //.AddIdentityCore<ApplicationUser>()
-    //.AddRoles<IdentityRole>()
     .AddIdentity<ApplicationUser, ApplicationRole>()
     .AddUserStore<ApplicationUserStore>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddApiEndpoints();
 
-builder.Services.ConfigureHttpJsonOptions(o =>
+// Add converters for strongly typed ids
+builder.Services.ConfigureHttpJsonOptions(options =>
 {
-    o.SerializerOptions.Converters.Add(new StrongIdJsonConverter());
+    options.SerializerOptions.Converters.Add(new StrongIdJsonConverter());
 });
 
 var app = builder.Build();
@@ -73,6 +67,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwaggerUi();
 }
+
+app.UseRouting();
 
 app.MapIdentityApi<ApplicationUser>();
 app.UseAuthentication();
@@ -120,9 +116,6 @@ app.MapGet("/roles", (ClaimsPrincipal user) =>
 })
 .RequireAuthorization();
 
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -141,6 +134,9 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
 
 app.MapFallbackToFile("index.html");
 

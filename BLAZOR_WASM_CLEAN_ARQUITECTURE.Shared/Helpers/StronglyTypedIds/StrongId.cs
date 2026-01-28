@@ -1,6 +1,8 @@
-﻿namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds;
+﻿using System.ComponentModel;
 
+namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds;
 
+//[TypeConverter(typeof(StrongIdInt32Converter))]
 public readonly record struct StrongId<TEntity>(int Value)
 {
     public static StrongId<TEntity> New() => default;

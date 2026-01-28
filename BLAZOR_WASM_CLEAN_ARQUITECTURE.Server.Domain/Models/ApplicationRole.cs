@@ -1,9 +1,9 @@
-﻿using BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds;
+﻿using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Helpers.StronglyTypedIds.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models;
 
-public class ApplicationRole : IdentityRole<StrongId<ApplicationUser>>
+public class ApplicationRole : IdentityRole<IdentityKey>
 {
     public ApplicationRole() : base() { }
 
