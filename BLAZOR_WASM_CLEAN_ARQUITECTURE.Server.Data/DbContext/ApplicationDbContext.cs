@@ -16,8 +16,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             typeof(ApplicationDbContext).Assembly,
             typeof(UserId).Assembly);
 
-        // Aplica conversores automáticamente a cualquier StrongId
-        // que no se haya configurado de forma explícita arriba.
         modelBuilder.ApplyStrongIdConversions();
     }
 }
