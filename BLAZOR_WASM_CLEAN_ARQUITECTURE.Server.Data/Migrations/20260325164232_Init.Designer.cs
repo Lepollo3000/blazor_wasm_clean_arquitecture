@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260127213844_Init")]
+    [Migration("20260325164232_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -123,7 +123,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,7 +147,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -171,7 +171,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -192,7 +192,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -207,7 +207,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -226,7 +226,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationRole", null)
                         .WithMany()
@@ -235,7 +235,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser", null)
                         .WithMany()
@@ -244,7 +244,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser", null)
                         .WithMany()
@@ -253,7 +253,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.HasOne("BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationRole", null)
                         .WithMany()
@@ -268,7 +268,7 @@ namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds.StrongId<BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser>>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models.ApplicationUser", null)
                         .WithMany()

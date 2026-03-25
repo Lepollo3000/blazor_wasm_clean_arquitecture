@@ -3,25 +3,20 @@ using System.Text.Json.Serialization;
 
 namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds;
 
-public sealed class StrongIdJsonConverter : JsonConverterFactory
+/// <summary>
+/// JSON converter genérico para cualquier StrongId.
+/// <br/>Registrar en el JsonSerializerOptions o via atributo.
+/// </summary>
+public class StrongIdJsonConverter<TId> : JsonConverter<TId>
+    where TId : StrongId<TId>
 {
-    public override bool CanConvert(Type typeToConvert)
-        => typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(StrongId<>);
-
-    public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    public override TId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var entityType = typeToConvert.GetGenericArguments()[0];
-        var converterType = typeof(IdJsonConverter<>).MakeGenericType(entityType);
+        var raw = reader.GetInt32();
 
-        return (JsonConverter)Activator.CreateInstance(converterType)!;
+        return raw == default ? null : StrongId<TId>.From(raw);
     }
 
-    private sealed class IdJsonConverter<TEntity> : JsonConverter<StrongId<TEntity>>
-    {
-        public override StrongId<TEntity> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-            => new(reader.GetInt32());
-
-        public override void Write(Utf8JsonWriter writer, StrongId<TEntity> value, JsonSerializerOptions options)
-            => writer.WriteNumberValue(value.Value);
-    }
+    public override void Write(Utf8JsonWriter writer, TId value, JsonSerializerOptions options) =>
+        writer.WriteNumberValue(value.Value);
 }

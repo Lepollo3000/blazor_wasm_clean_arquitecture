@@ -1,7 +1,7 @@
 using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.DbContext;
 using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Helpers;
+using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Helpers.StronglyTypedIds;
 using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models;
-using BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,20 +40,26 @@ builder.Services
         //options.UseInMemoryDatabase("AppDb");
         //For debugging only: options.EnableDetailedErrors(true);
         //For debugging only: options.EnableSensitiveDataLogging(true);
+        //options.ReplaceService<IValueConverterSelector, StrongIdValueConverterSelector>();
     });
 
 // Add identity and opt-in to endpoints
 builder.Services
+    //.AddIdentityCore<ApplicationUser>()
+    //.AddRoles<ApplicationRole>()
     .AddIdentity<ApplicationUser, ApplicationRole>()
-    .AddUserStore<ApplicationUserStore>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders()
+    .AddSignInManager()
     .AddApiEndpoints();
 
 // Add converters for strongly typed ids
-builder.Services.ConfigureHttpJsonOptions(options =>
-{
-    options.SerializerOptions.Converters.Add(new StrongIdJsonConverter());
-});
+builder.Services
+     .AddStrongIds(typeof(Program).Assembly) // TypeConverters
+     .ConfigureHttpJsonOptions(options =>
+     {
+         options.SerializerOptions.AddStrongIdSupport(); // JSON
+     });
 
 var app = builder.Build();
 

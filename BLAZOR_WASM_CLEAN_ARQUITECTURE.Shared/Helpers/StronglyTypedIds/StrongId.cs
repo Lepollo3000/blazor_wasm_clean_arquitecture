@@ -1,28 +1,35 @@
-﻿using System.ComponentModel;
+﻿namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds;
 
-namespace BLAZOR_WASM_CLEAN_ARQUITECTURE.Shared.Helpers.StronglyTypedIds;
-
-//[TypeConverter(typeof(StrongIdInt32Converter))]
-public readonly record struct StrongId<TEntity>(int Value)
+/// <summary>
+/// Base record para IDs fuertemente tipados. Usa un Guid internamente.
+/// <br/>Derivar con: public record UserId(Guid Value) : StrongId<UserId>(Value);
+/// </summary>
+public abstract record StrongId<TSelf>(int Value)
+    where TSelf : StrongId<TSelf>
 {
-    public static StrongId<TEntity> New() => default;
-    public static StrongId<TEntity> New(int value) => new(value);
+    public static TSelf New() => Create(default);
 
-    public override string ToString() => Value.ToString();
+    public static TSelf Empty => Create(default);
 
-    // Para Minimal APIs / binding: patrón TryParse
-    public static bool TryParse(string? value, IFormatProvider? provider, out StrongId<TEntity> result)
+    public static TSelf From(int value) => Create(value);
+
+    public static bool TryParse(string? input, out TSelf? result)
     {
-        if (int.TryParse(value, out var intValue))
+        if (int.TryParse(input, out var guid))
         {
-            result = new StrongId<TEntity>(intValue);
+            result = Create(guid);
 
             return true;
         }
 
-        result = default;
+        result = null;
 
         return false;
     }
-}
 
+    public override string ToString() => Value.ToString();
+
+    // El factory method se resuelve mediante el constructor del tipo derivado.
+    private static TSelf Create(int value) =>
+        (TSelf)Activator.CreateInstance(typeof(TSelf), value)!;
+}

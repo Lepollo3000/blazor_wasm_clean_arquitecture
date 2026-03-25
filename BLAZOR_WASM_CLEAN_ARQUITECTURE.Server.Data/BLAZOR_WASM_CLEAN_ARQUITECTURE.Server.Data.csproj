@@ -18,4 +18,8 @@
 		<ProjectReference Include="..\BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain\BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
+
 </Project>

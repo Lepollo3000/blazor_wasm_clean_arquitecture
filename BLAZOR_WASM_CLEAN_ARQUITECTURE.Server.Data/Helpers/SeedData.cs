@@ -1,7 +1,6 @@
 using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.DbContext;
 using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,17 +10,15 @@ public class SeedData
 {
     private static readonly IEnumerable<SeedUser> seedUsers =
     [
-        new SeedUser()
+        new SeedUser("leela@contoso.com")
         {
-            Email = "leela@contoso.com",
             NormalizedEmail = "LEELA@CONTOSO.COM",
             NormalizedUserName = "LEELA@CONTOSO.COM",
             RoleList = ["Administrator", "Manager"],
             UserName = "leela@contoso.com"
         },
-        new SeedUser()
+        new SeedUser("harry@contoso.com")
         {
-            Email = "harry@contoso.com",
             NormalizedEmail = "HARRY@CONTOSO.COM",
             NormalizedUserName = "HARRY@CONTOSO.COM",
             RoleList = ["User"],
@@ -35,7 +32,6 @@ public class SeedData
 
         await context.Database.MigrateAsync();
 
-        var userStore = new ApplicationUserStore(context);
         var password = new PasswordHasher<ApplicationUser>();
 
         using var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
@@ -83,7 +79,7 @@ public class SeedData
         await context.SaveChangesAsync();
     }
 
-    private class SeedUser : ApplicationUser
+    private class SeedUser(string email) : ApplicationUser(email)
     {
         public string[]? RoleList { get; set; }
     }
