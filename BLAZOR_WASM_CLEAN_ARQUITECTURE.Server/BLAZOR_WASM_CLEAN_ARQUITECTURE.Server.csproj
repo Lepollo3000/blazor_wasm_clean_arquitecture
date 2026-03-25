@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>4f3b8768-8e8b-4673-98e5-69c14d5b9c70</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+		<PackageReference Include="NSwag.AspNetCore" Version="14.6.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BLAZOR_WASM_CLEAN_ARQUITECTURE.Client\BLAZOR_WASM_CLEAN_ARQUITECTURE.Client.csproj" />
+		<ProjectReference Include="..\BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data\BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.csproj" />
+	</ItemGroup>
+
+</Project>
