@@ -1,4 +1,4 @@
-using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.DbContext;
+using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Data.Models;
 using BLAZOR_WASM_CLEAN_ARQUITECTURE.Server.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
